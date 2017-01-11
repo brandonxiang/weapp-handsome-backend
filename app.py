@@ -1,5 +1,5 @@
 from __future__ import print_function
-from flask import Flask
+from flask import Flask, request
 import sqlite3
 import json
 app = Flask(__name__)
@@ -7,11 +7,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-
     return 'Hello World!'
 
-@app.route('/validation/<openid>')
-def validation(openid):
+@app.route('/validation', methods=['post'])
+def validation():
+    openid = request.get_json().get("openid")
     with sqlite3.connect('./handsome.db') as conn:
         cmd = "select openid from validation where openid = ?"
         cursor = conn.execute(cmd,(openid,))
@@ -25,9 +25,9 @@ def validation(openid):
         return json.dumps(result)
     return 'validation'
 
-@app.route('/vote')
+@app.route('/vote', methods=['post'])
 def vote():
-    newScore = {"user":"robin","score":[(104,"bluebutterfly"),(105, "me")]}
+    newScore = request.get_json()
     with sqlite3.connect('handsome.db') as conn:
         openid = newScore.get("user")
         cmd = "insert into validation (openid) values (?)"
@@ -37,8 +37,6 @@ def vote():
         score = newScore.get("score")
         cmd = "update vote set score= ? where name = ?"
         conn.executemany(cmd, score)
-
-        pass
     return 'vote'
 
 if __name__ == '__main__':
