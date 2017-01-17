@@ -23,22 +23,23 @@ def hello_world():
 
 @app.route('/validation', methods=['POST','GET'])
 def validation():
-    openid = request.get_json().get("openid")
-    return openid
-    try:
-        conn = g.db.cursor()
-        cmd = "select openid from validation where openid = ?"
-        cursor = conn.execute(cmd,(openid,))
-        user = cursor.fetchall()
+    return "validation"
+    # openid = request.get_json().get("openid")
+    # return openid
+    # try:
+    #     conn = g.db.cursor()
+    #     cmd = "select openid from validation where openid = ?"
+    #     cursor = conn.execute(cmd,(openid,))
+    #     user = cursor.fetchall()
 
-        cmd = "select * from vote"
-        cursor = conn.execute(cmd)
-        score = cursor.fetchall()
-        user_num = len(user)
-        result = {"user":user_num,"score":score}
-        return json.dumps(result)
-    except:
-        return 'Fail to validation'
+    #     cmd = "select * from vote"
+    #     cursor = conn.execute(cmd)
+    #     score = cursor.fetchall()
+    #     user_num = len(user)
+    #     result = {"user":user_num,"score":score}
+    #     return json.dumps(result)
+    # except:
+    #     return 'Fail to validation'
    
 
 
