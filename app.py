@@ -23,36 +23,33 @@ def hello_world():
 
 @app.route('/validation', methods=['POST','GET'])
 def validation():
-    openid = request.args.get('openid', 'default')
-    return openid
-    # try:
-    #     conn = g.db.cursor()
-    #     cmd = "select openid from validation where openid = ?"
-    #     cursor = conn.execute(cmd,(openid,))
-    #     user = cursor.fetchall()
+    openid = request.args.get('openid', '')
+    try:
+        conn = g.db.cursor()
+        cmd = "select openid from validation where openid = ?"
+        cursor = conn.execute(cmd,(openid,))
+        user = cursor.fetchall()
 
-    #     cmd = "select * from vote"
-    #     cursor = conn.execute(cmd)
-    #     score = cursor.fetchall()
-    #     user_num = len(user)
-    #     result = {"user":user_num,"score":score}
-    #     return json.dumps(result)
-    # except:
-    #     return 'Fail to validation'
+        cmd = "select * from vote"
+        cursor = conn.execute(cmd)
+        score = cursor.fetchall()
+        user_num = len(user)
+        result = {"user":user_num,"score":score}
+        return json.dumps(result)
+    except:
+        return 'Fail to validation'
    
 
 
 @app.route('/vote',  methods=['POST','GET'])
 def vote():
+    openid = request.args.get('user', '')
+    score = request.args.get('score', '')
     try:
-        newScore = request.get_json()
         conn = g.db.cursor()
-        openid = newScore.get("user")
         cmd = "insert into validation (openid) values (?)"
         conn.execute(cmd, (openid,))
 
-        print(newScore.get("score"))
-        score = newScore.get("score")
         cmd = "update vote set score= ? where name = ?"
         conn.executemany(cmd, score)
         return 'Succeed to reset'
