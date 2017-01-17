@@ -12,32 +12,56 @@ def hello_world():
 @app.route('/validation', methods=['post'])
 def validation():
     openid = request.get_json().get("openid")
-    with sqlite3.connect('./handsome.db') as conn:
-        cmd = "select openid from validation where openid = ?"
-        cursor = conn.execute(cmd,(openid,))
-        user = cursor.fetchall()
+    try:
+         with sqlite3.connect('./handsome.db') as conn:
+            cmd = "select openid from validation where openid = ?"
+            cursor = conn.execute(cmd,(openid,))
+            user = cursor.fetchall()
 
-        cmd = "select * from vote"
-        cursor = conn.execute(cmd)
-        score = cursor.fetchall()
-        user_num = len(user)
-        result = {"user":user_num,"score":score}
-        return json.dumps(result)
-    return 'validation'
+            cmd = "select * from vote"
+            cursor = conn.execute(cmd)
+            score = cursor.fetchall()
+            user_num = len(user)
+            result = {"user":user_num,"score":score}
+            return json.dumps(result)
+    except:
+        return 'Fail to validation'
+   
+
 
 @app.route('/vote', methods=['post'])
 def vote():
-    newScore = request.get_json()
-    with sqlite3.connect('handsome.db') as conn:
-        openid = newScore.get("user")
-        cmd = "insert into validation (openid) values (?)"
-        conn.execute(cmd, (openid,))
+    try:
+        newScore = request.get_json()
+        with sqlite3.connect('handsome.db') as conn:
+            openid = newScore.get("user")
+            cmd = "insert into validation (openid) values (?)"
+            conn.execute(cmd, (openid,))
 
-        print(newScore.get("score"))
-        score = newScore.get("score")
-        cmd = "update vote set score= ? where name = ?"
-        conn.executemany(cmd, score)
-    return 'vote'
+            print(newScore.get("score"))
+            score = newScore.get("score")
+            cmd = "update vote set score= ? where name = ?"
+            conn.executemany(cmd, score)
+        return 'Succeed to reset'
+    except:
+        return 'Fail to vote'
+   
+
+
+@app.route('/reset',methods=['get'])
+def reset():
+    try:
+        if request.args.get('id') == "19910525":
+            with sqlite3.connect('handsome.db') as conn:
+                cmd = "delete from validation"
+                conn.execute(cmd)
+                cmd = "update vote set score = 0"
+                conn.execute(cmd)
+        return 'Succeed to reset'
+    except:
+        return 'Fail to reset'
+    
+    
 
 if __name__ == '__main__':
     app.debug = True
