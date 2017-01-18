@@ -30,14 +30,12 @@ def validation():
     conn.execute(cmd,(openid))
     user = conn.fetchall()
 
-    return openid
-
-        # cmd = "select * from vote"
-        # cursor = conn.execute(cmd)
-        # score = cursor.fetchall()
-        # user_num = len(user)
-        # result = {"user":user_num,"score":score}
-        # return json.dumps(result)
+    cmd = "select * from vote"
+    conn.execute(cmd)
+    score = conn.fetchall()
+    user_num = len(user)
+    result = {"user":user_num,"score":score}
+    return json.dumps(result)
    
    
 
