@@ -42,10 +42,10 @@ def validation():
 def vote():
     res = json.loads(request.data)
 
-    return request.data
-    # openid = res.get('user')
-    # score = res.get('score')
+    openid = res.get('user')
+    score = res.get('score')
 
+    return openid
     # conn = g.db.cursor()
     # cmd = "insert into validation (openid) values %s"
     # conn.execute(cmd, (openid))
