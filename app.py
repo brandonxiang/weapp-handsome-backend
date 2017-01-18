@@ -24,7 +24,9 @@ def hello_world():
 @app.route('/validation', methods=['POST','GET'])
 def validation():
     openid = request.args.get('openid', '')
-    return openid
+    return (MYSQL_HOST, MYSQL_HOST_S,
+    MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB
+)
         # conn = g.db.cursor()
         # cmd = "select openid from validation where openid = ?"
         # cursor = conn.execute(cmd,(openid,))
