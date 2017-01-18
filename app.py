@@ -23,23 +23,19 @@ def hello_world():
 
 @app.route('/validation', methods=['POST','GET'])
 def validation():
-    openid = request.data
+    openid = json.loads(request.data).get("openid")
 
-    return openid
+    conn = g.db.cursor()
+    cmd = "select * from validation where openid = %s"
+    conn.execute(cmd,(openid))
+    user = conn.fetchall()
 
-    # conn = g.db.cursor()
-    # cmd = "select * from validation where openid = %s"
-    # conn.execute(cmd,(openid))
-    # user = conn.fetchall()
-
-    # cmd = "select * from vote"
-    # conn.execute(cmd)
-    # score = conn.fetchall()
-    # user_num = len(user)
-    # result = {"user":user_num,"score":score}
-    # return json.dumps(result)
-   
-   
+    cmd = "select * from vote"
+    conn.execute(cmd)
+    score = conn.fetchall()
+    user_num = len(user)
+    result = {"user":user_num,"score":score}
+    return json.dumps(result)
 
 
 @app.route('/vote',  methods=['POST','GET'])
