@@ -23,7 +23,7 @@ def hello_world():
 
 @app.route('/validation', methods=['POST','GET'])
 def validation():
-    openid = request.form.get('openid')
+    openid = request.get_json().get('openid')
 
     conn = g.db.cursor()
     cmd = "select * from validation where openid = %s"
@@ -44,16 +44,15 @@ def validation():
 def vote():
     openid = request.args.get('user', '')
     score = request.args.get('score', '')
-    try:
-        conn = g.db.cursor()
-        cmd = "insert into validation (openid) values (?)"
-        conn.execute(cmd, (openid,))
 
-        cmd = "update vote set score= ? where name = ?"
-        conn.executemany(cmd, score)
-        return 'Succeed to reset'
-    except:
-        return 'Fail to vote'
+    conn = g.db.cursor()
+    cmd = "insert into validation (openid) values %s"
+    conn.execute(cmd, (openid))
+
+    cmd = "update vote set score= %s where name = %s"
+    conn.executemany(cmd, score)
+    return 'Succeed to reset'
+
    
 
 
