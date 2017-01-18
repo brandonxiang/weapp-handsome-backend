@@ -23,39 +23,45 @@ def hello_world():
 
 @app.route('/validation', methods=['POST'])
 def validation():
-    openid = json.loads(request.data).get("openid")
+    try:
+        openid = json.loads(request.data).get("openid")
 
-    conn = g.db.cursor()
-    cmd = "select * from validation where openid = %s"
-    conn.execute(cmd,(openid))
-    user = conn.fetchall()
+        conn = g.db.cursor()
+        cmd = "select * from validation where openid = %s"
+        conn.execute(cmd,(openid))
+        user = conn.fetchall()
 
-    cmd = "select * from vote"
-    conn.execute(cmd)
-    score = conn.fetchall()
-    user_num = len(user)
-    result = {"user":user_num,"score":score}
+        cmd = "select * from vote"
+        conn.execute(cmd)
+        score = conn.fetchall()
+        user_num = len(user)
+        result = {"user":user_num,"score":score}
 
-    cmd = "insert into validation(openid) values(%s)"
-    conn.execute(cmd, (openid))
-    return json.dumps(result)
+        cmd = "insert into validation(openid) values(%s)"
+        conn.execute(cmd, (openid))
+        return json.dumps(result)
+    except:
+        return 'Fail to validation'
 
 
 @app.route('/vote',  methods=['POST'])
 def vote():
-    res = json.loads(request.data)
+    try:
+        res = json.loads(request.data)
 
-    openid = res.get('user')
-    score = res.get('score')
+        openid = res.get('user')
+        score = res.get('score')
 
-    conn = g.db.cursor()
-    cmd = "insert into validation(openid) values(%s)"
-    conn.execute(cmd, (openid))
-    g.db.commit()
+        conn = g.db.cursor()
+        cmd = "insert into validation(openid) values(%s)"
+        conn.execute(cmd, (openid))
 
-    # cmd = "update vote set score= %s where name = %s"
-    # conn.executemany(cmd, score)
-    return openid
+        cmd = "update vote set score= %s where name = %s"
+        conn.executemany(cmd, score)
+        g.db.commit()
+        return "Succeed to vote"
+    except:
+        return 'Fail to vote'
 
 
 @app.route('/reset',methods=['get'])
