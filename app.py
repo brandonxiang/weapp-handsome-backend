@@ -48,7 +48,6 @@ def vote():
     conn = g.db.cursor()
     cmd = "insert into validation (openid) values ('%s')"
     conn.execute(cmd, (openid))
-    conn.commit()
 
     # cmd = "update vote set score= %s where name = %s"
     # conn.executemany(cmd, score)
