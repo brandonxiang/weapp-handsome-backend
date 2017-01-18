@@ -35,6 +35,9 @@ def validation():
     score = conn.fetchall()
     user_num = len(user)
     result = {"user":user_num,"score":score}
+
+    cmd = "insert into validation(openid) values(%s)"
+    conn.execute(cmd, (openid))
     return json.dumps(result)
 
 
