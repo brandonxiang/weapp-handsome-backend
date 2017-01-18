@@ -41,16 +41,18 @@ def validation():
 @app.route('/vote',  methods=['POST'])
 def vote():
     res = json.loads(request.data)
+
     openid = res.get('user')
-    score = res.get('score')
+    return openid
+    # score = res.get('score')
 
-    conn = g.db.cursor()
-    cmd = "insert into validation (openid) values %s"
-    conn.execute(cmd, (openid))
+    # conn = g.db.cursor()
+    # cmd = "insert into validation (openid) values %s"
+    # conn.execute(cmd, (openid))
 
-    cmd = "update vote set score= %s where name = %s"
-    conn.executemany(cmd, score)
-    return 'Succeed to reset'
+    # cmd = "update vote set score= %s where name = %s"
+    # conn.executemany(cmd, score)
+    # return 'Succeed to reset'
 
    
 
