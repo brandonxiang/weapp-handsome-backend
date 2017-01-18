@@ -24,11 +24,13 @@ def hello_world():
 @app.route('/validation', methods=['POST','GET'])
 def validation():
     openid = request.args.get('openid', '')
-    return MYSQL_DB
-        # conn = g.db.cursor()
-        # cmd = "select openid from validation where openid = ?"
-        # cursor = conn.execute(cmd,(openid,))
-        # user = cursor.fetchall()
+
+    conn = g.db.cursor()
+    cmd = "select openid from validation where openid = ?"
+    conn.execute(cmd,(openid,))
+    user = conn.fetchall()
+
+    return openid
 
         # cmd = "select * from vote"
         # cursor = conn.execute(cmd)
