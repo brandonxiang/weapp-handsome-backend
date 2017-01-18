@@ -21,7 +21,7 @@ def teardown_request(exception):
 def hello_world():
     return 'Hello World!'
 
-@app.route('/validation', methods=['POST','GET'])
+@app.route('/validation', methods=['POST'])
 def validation():
     openid = json.loads(request.data).get("openid")
 
@@ -38,7 +38,7 @@ def validation():
     return json.dumps(result)
 
 
-@app.route('/vote',  methods=['POST','GET'])
+@app.route('/vote',  methods=['POST'])
 def vote():
     res = json.loads(request.data)
     openid = res.get('user')
