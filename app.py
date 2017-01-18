@@ -49,8 +49,8 @@ def vote():
     cmd = "insert into validation (openid) values (%s)"
     conn.execute(cmd, (openid))
 
-    cmd = "update vote set score= %s where name = %s"
-    conn.executemany(cmd, score)
+    # cmd = "update vote set score= %s where name = %s"
+    # conn.executemany(cmd, score)
     return 'Succeed to reset'
 
    
