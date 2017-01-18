@@ -23,7 +23,7 @@ def hello_world():
 
 @app.route('/validation', methods=['POST','GET'])
 def validation():
-    openid = request.values.get('openid')
+    openid = request.form.get('openid')
 
     conn = g.db.cursor()
     cmd = "select * from validation where openid = %s"
