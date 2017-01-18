@@ -42,8 +42,8 @@ def validation():
 def vote():
     res = json.loads(request.data)
 
-    openid = res.get('user')
-    return openid
+    return request.data
+    # openid = res.get('user')
     # score = res.get('score')
 
     # conn = g.db.cursor()
