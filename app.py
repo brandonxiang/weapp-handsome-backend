@@ -51,7 +51,7 @@ def vote():
 
     # cmd = "update vote set score= %s where name = %s"
     # conn.executemany(cmd, score)
-    return 'Succeed to reset'
+    return openid
 
    
 
