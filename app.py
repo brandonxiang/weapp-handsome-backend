@@ -40,8 +40,9 @@ def validation():
 
 @app.route('/vote',  methods=['POST','GET'])
 def vote():
-    openid = request.args.get('user', '')
-    score = request.args.get('score', '')
+    res = json.loads(request.data)
+    openid = res.get('user')
+    score = res.get('score')
 
     conn = g.db.cursor()
     cmd = "insert into validation (openid) values %s"
