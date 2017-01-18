@@ -45,14 +45,14 @@ def vote():
     openid = res.get('user')
     score = res.get('score')
 
-    return openid
-    # conn = g.db.cursor()
-    # cmd = "insert into validation (openid) values %s"
-    # conn.execute(cmd, (openid))
+    # return openid
+    conn = g.db.cursor()
+    cmd = "insert into validation (openid) values %s"
+    conn.execute(cmd, (openid))
 
     # cmd = "update vote set score= %s where name = %s"
     # conn.executemany(cmd, score)
-    # return 'Succeed to reset'
+    return 'Succeed to reset'
 
    
 
