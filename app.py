@@ -26,8 +26,8 @@ def validation():
     openid = request.args.get('openid', '')
 
     conn = g.db.cursor()
-    cmd = "select openid from validation where openid = ?"
-    conn.execute(cmd,(openid,))
+    cmd = "select * from validation"
+    conn.execute(cmd)
     user = conn.fetchall()
 
     return openid
