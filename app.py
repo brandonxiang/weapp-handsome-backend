@@ -40,11 +40,11 @@ def vote():
 
             print(newScore.get("score"))
             score = newScore.get("score")
-            cmd = "update vote set score= ? where name = ?"
-            conn.executemany(cmd, score)
+            cmd = "update vote set score = score+1 where name = ?"
+            conn.execute(cmd, (score,))
         return 'Succeed to reset'
-    except:
-        return 'Fail to vote'
+    except Exception as e:
+        return 'Fail to vote'+ e.args
    
 
 
