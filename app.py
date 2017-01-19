@@ -56,8 +56,8 @@ def vote():
         cmd = "insert into validation(openid) values(%s)"
         conn.execute(cmd, (openid))
 
-        cmd = "update vote set score= %s where name = %s"
-        conn.executemany(cmd, score)
+        cmd = "update vote set score=score+1 where name = %s"
+        conn.execute(cmd, (score))
         g.db.commit()
         return "Succeed to vote"
     except:
