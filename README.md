@@ -1,7 +1,7 @@
 # weapp-handsome-backend
 A backend for weapp-handsome
 
-该库为小程序brandonxiang/weapp-handsome的后端部分。
+该库为小程序[brandonxiang/weapp-handsome](https://github.com/brandonxiang/weapp-handsome/)的后端部分。
 
 ## API
 
